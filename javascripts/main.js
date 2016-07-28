@@ -1,4 +1,4 @@
-        var last = false , counter = 1;
+        var  counter = 1;
         $(document).ready(function(){
             
             var erroEle = $('.error-message'),       
@@ -7,6 +7,7 @@
             
             $('.navigation a').click(function(){
                 nextMaster('navi');
+                
              var thisInput = $('#'+$(this).attr('data-ref'));
                 $('.active').removeClass('active');
                 thisInput.focus().addClass('active')
@@ -19,8 +20,7 @@
                   opacity: 0
                 },200)
 //                     .AddClass('done');
-                 
-                    
+                  
                 thisInput.closest('li').nextAll('li').animate({
                   marginTop: '150px',
                   opacity: 0
@@ -67,6 +67,7 @@
                     }
                     else
                     {
+
                         if(type != 'navi') showLi(focusInput);
                         $('#next-page').css('opacity', 0);
                         errorMessage(erroEle ,  '', 'hidden' , 0);
@@ -79,7 +80,6 @@
             
              $("input[type='text']").keyup(function(event) {
                 var focusInput =$(this);
-                if(!last){
                  if(focusInput.val().length > 1)
                  {
                     if((focusInput.attr('name') == 'email' && !validateEmail(focusInput.val()))||
@@ -93,7 +93,6 @@
                  }else{
                      $('#next-page').css('opacity', 0);
                  }
-                }
             });
             
            
@@ -104,6 +103,16 @@
                 if(focusInput.val().length > 1){
                       $('#next-page').css('opacity', 1);
                 }
+            });
+            
+            $('#signup').click(function(){
+                $('.navigation').fadeOut(400).css({'display':'none'});
+                $('#sign-form').fadeOut(400).css({'display':'none'});
+                $(this).fadeOut(400).css({'display':'none'});
+                $('#wf').animate({
+                    opacity:1,
+                    marginTop: '1em'
+                },500).css({'display':'block'});
             });
             
         
@@ -126,6 +135,8 @@
                 opacity: 0
             },200);
              
+            console.log(focusInput.closest('li'));
+           
             if(focusInput.attr('id') == 'viewpswd'){
                 $("[data-ref='"+focusInput.attr('id')+"']")
                     .addClass('done').html('password');
@@ -133,11 +144,8 @@
             }else{
                 $("[data-ref='"+focusInput.attr('id')+"']").addClass('done').html(focusInput.val());
             }
-//            console.log(focusInput.val());
             
-            focusInput.removeClass('active')
-            
-            
+            focusInput.removeClass('active');            
             counter++;
             
             var nextli = focusInput.closest('li').next('li');
@@ -148,16 +156,9 @@
             },200);
             
            
-            if(nextli.is(':last-child'))
-            {
-                setTimeout(function(){
-                    $('#next-page').css('opacity', 0);
-                },400)    
-                last = true;
-            }
-            else{
                 nextli.find('input').focus().addClass('active');
-            }        
+              
+            
         }
         
         function errorMessage(textmeg , appendString , visib, opaci ){
